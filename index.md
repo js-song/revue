@@ -2,6 +2,9 @@
  * @Author: song
  * @Date: 2021-03-01 14:19:58
 -->
+- data: {} 和 data() {}
+- vue页面刷新会闪现占位符{{anything}}
+    - 解决方法: 添加v-cloak
 - computed 属性默认只有getter没有setter，不过可以自定义setter
 - 当需要在数据变化时执行异步或开销较大的操作时，使用watch
 - 用 key 管理可复用的的元素
