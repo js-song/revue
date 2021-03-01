@@ -1,0 +1,121 @@
+<!--
+ * @Author: song
+ * @Date: 2021-03-01 09:34:43
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+    .active {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <p :class='{ active: isActive }'>{{ msg }}</p>
+    <p>{{ reverseMsg }}</p>
+    <p>{{ getTime() }}</p>
+    <p>{{ fullName }}</p>
+    <template v-if="loginType === 'username'">
+      <label>Username</label>
+      <input placeholder="Enter your username" key="username-login">
+    </template>
+    <template v-else>
+      <label>Email</label>
+      <input placeholder="Enter your email address" key="email-login">
+    </template>
+    <button @click="toggleLogin">toggle</button>
+  </div>
+  <!-- <div id="watch-example">
+    <p>
+      Ask a yes/no question:
+      <input v-model="question">
+    </p>
+    <p>{{ answer }}</p>
+  </div> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello',
+        isActive: true,
+        firstName: 'song',
+        lastName: 'peng',
+        loginType: 'username'
+        // fullName: this.firstName
+      },
+      computed: {
+        reverseMsg() {
+          return this.msg.split('').reverse().join('')
+        },
+        fullName() {
+          return this.firstName + this.lastName
+        }
+      },
+      watch: {
+        // firstName(val) {
+        //   return this.fullName = val + this.lastName
+        // },
+        // lastName(val) {
+        //   return this.fullName = this.firstName + val
+        // }
+      },
+      methods: {
+        getTime() {
+          return Date.now()
+        },
+        toggleLogin() {
+          this.loginType = this.loginType === 'username' ? 'email' : 'username'
+        }
+      }
+    })
+  </script>
+  <!-- <script>
+    new Vue({
+      el: '#watch-example',
+      data: {
+        question: '',
+        answer: 'I cannot give you an answer until you ask a question!'
+      },
+      watch: {
+        question() {
+          console.log(1234)
+          this.answer = 'Waiting for you to stop typing...'
+          this.debouncedGetAnswer()
+        }
+      },
+      created() {
+        this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+      },
+      methods: {
+        getAnswer() {
+          console.log(123)
+          if (this.question.indexOf('?') === -1) {
+            this.answer = 'no ?'
+            return
+          }
+          this.answer = '......'
+          var vm = this
+          axios.get('https://yesno.wtf/api').then(res => {
+            vm.answer = res.data.answer
+          })
+        }
+      }
+    })
+  </script> -->
+</body>
+
+</html>

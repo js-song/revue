@@ -1,0 +1,79 @@
+<!--
+ * @Author: song
+ * @Date: 2021-03-01 15:46:52
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <!-- v-for 遍历对象时，Object.keys(),不能保证在不同的js引擎下都一致 -->
+    <ul>
+      <li v-for="(value, name, index) in objData">
+        {{ index }} - {{ name }} - {{ value }}
+      </li>
+    </ul>
+    <!-- 显示过滤/排序后的结果 -->
+    <ul>
+      <li v-for="n in evenNumbers">{{ n }}</li>
+    </ul>
+    <div>
+      <form @submit.prevent="addNewTodo">
+        <label for="new-todo">add a todo</label>
+        <input id="new-todo" v-model="newTodoText" placeholder="lalala">
+      </form>
+      <ul>
+        <li
+          is="todo-item"
+          v-for="(todo, index) in todos"
+          :title="todo.title"
+          :key="todo.key"
+          @remove="todos.splice(index, 1)"
+        />
+      </ul>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('todo-item', {
+      props: ['title'],
+      template: `<li>
+        {{ title }}
+        <button @click="$emit('remove')">remove</button>
+      </li>`
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        objData: {
+          name: 'song',
+          age: 18
+        },
+        numbers: [1, 2, 3, 4],
+        todos: [],
+        newTodoId: 0,
+        newTodoText: ''
+      },
+      computed: {
+        evenNumbers() {
+          return this.numbers.filter(number => number % 2 === 0)
+        }
+      },
+      methods: {
+        addNewTodo() {
+          this.todos.push({
+            key: this.newTodoId++,
+            title: this.newTodoText
+          }),
+          this.newTodoText = ''
+        }
+      }
+    })
+  </script>
+</body>
+</html>
