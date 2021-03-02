@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <blog-item v-for="item in postData" :key="item.id" :post="item" @size="changeSize" />
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    Vue.component('blog-item', {
+      props: ['post'],
+      template: `<div>
+        <h3>{{ post.tit }}</h3>
+        <button @click="$emit('size', 12)">font</button>
+        <p v-html="post.ctt" />
+      </div>`
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        postData: [
+          {
+            id: 1,
+            tit: '标题',
+            ctt: '<h4>123</h4>'
+          }
+        ]
+      },
+      methods: {
+        changeSize(v) {
+          console.log(this.$event)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
